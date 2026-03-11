@@ -1,4 +1,4 @@
-// src/components/CRUD/GetProduct.jsx
+
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { 
@@ -47,22 +47,22 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 function GetProduct() {
   const dispatch = useDispatch();
   
-  // 👇 Refs for infinite loop protection
+ 
   const isMounted = useRef(false);
   const prevFiltersRef = useRef({});
   const prevSortRef = useRef({});
   const sessionLoaded = useRef(false);
   
-  // Get the full product state
+ 
   const productState = useSelector((state) => state.products);
   
-  // Debug logs
-  console.log("🔄 Component rendering...");
-  console.log("📦 Full Product State:", productState);
+ 
+  console.log(" Component rendering...");
+  console.log(" Full Product State:", productState);
   
-  // ✅ FIXED: Correctly access nested state
-  const products = productState?.products?.products || [];
-  const filteredProducts = productState?.products?.filteredProducts || [];
+ 
+  const products = productState?.products || [];
+  const filteredProducts = productState?.filteredProducts || [];
   const loading = productState?.products?.loading || false;
   const error = productState?.products?.error || null;
   
@@ -80,28 +80,28 @@ function GetProduct() {
     order: 'desc'
   };
   
-  console.log("📊 Products count:", products.length);
-  console.log("🔍 Filtered count:", filteredProducts.length);
-  console.log("📋 Filters from Redux:", filters);
-  console.log("📋 Sort from Redux:", sort);
+  console.log(" Products count:", products.length);
+  console.log(" Filtered count:", filteredProducts.length);
+  console.log(" Filters from Redux:", filters);
+  console.log(" Sort from Redux:", sort);
   
-  // ✅ Load from session on initial render (ONLY ONCE)
+ 
   useEffect(() => {
     if (!sessionLoaded.current) {
       const savedFilters = loadFiltersFromSession();
       const savedSort = loadSortFromSession();
       
-      console.log("📂 Session loaded - Filters:", savedFilters);
-      console.log("📂 Session loaded - Sort:", savedSort);
+      console.log(" Session loaded - Filters:", savedFilters);
+      console.log(" Session loaded - Sort:", savedSort);
       
-      // Apply saved filters if they exist
+      
       if (savedFilters && Object.keys(savedFilters).length > 0) {
-        console.log("🎯 Applying saved filters from session");
+        console.log(" Applying saved filters from session");
         dispatch(updateFilters(savedFilters));
       }
       
       if (savedSort) {
-        console.log("🎯 Applying saved sort from session");
+        console.log(" Applying saved sort from session");
         dispatch(updateSort(savedSort));
       }
       
@@ -109,7 +109,7 @@ function GetProduct() {
     }
   }, [dispatch]);
   
-  // Local state for filters
+  
   const [localFilters, setLocalFilters] = useState({
     name: filters.name || '',
     fromDate: filters.fromDate || null,
@@ -119,25 +119,25 @@ function GetProduct() {
     maxPrice: filters.maxPrice || ''
   });
   
-  // Local state for sort
+  
   const [localSort, setLocalSort] = useState({
     field: sort.field || 'createdAt',
     order: sort.order || 'desc'
   });
   
-  // UI state
+  
   const [showFilters, setShowFilters] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState({});
   const [page, setPage] = useState(1);
   const rowsPerPage = 8;
 
-  // ✅ Fetch products on mount
+  
   useEffect(() => {
-    console.log("🚀 Fetching products...");
+    console.log(" Fetching products...");
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // ✅ Update local filters when Redux filters change (with comparison)
+
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
@@ -148,7 +148,7 @@ function GetProduct() {
       JSON.stringify(prevFiltersRef.current) !== JSON.stringify(filters);
     
     if (filtersChanged) {
-      console.log("📋 Filters changed, updating local filters:", filters);
+      console.log(" Filters changed, updating local filters:", filters);
       setLocalFilters({
         name: filters.name || '',
         fromDate: filters.fromDate || null,
@@ -161,14 +161,14 @@ function GetProduct() {
     }
   }, [filters]);
 
-  // ✅ Update local sort when Redux sort changes (with comparison)
+ 
   useEffect(() => {
     const sortChanged = 
       prevSortRef.current.field !== sort.field ||
       prevSortRef.current.order !== sort.order;
     
     if (sortChanged) {
-      console.log("📊 Sort changed, updating local sort:", sort);
+      console.log(" Sort changed, updating local sort:", sort);
       setLocalSort({
         field: sort.field || 'createdAt',
         order: sort.order || 'desc'
@@ -177,7 +177,7 @@ function GetProduct() {
     }
   }, [sort]);
 
-  // Filter handlers
+
   const handleFilterChange = useCallback((field, value) => {
     setLocalFilters(prev => ({ ...prev, [field]: value }));
   }, []);
@@ -189,7 +189,7 @@ function GetProduct() {
         cleanedFilters[key] = value;
       }
     });
-    console.log("🎯 Applying filters:", cleanedFilters);
+    console.log(" Applying filters:", cleanedFilters);
     dispatch(updateFilters(cleanedFilters));
     setPage(1);
   }, [localFilters, dispatch]);
@@ -199,12 +199,12 @@ function GetProduct() {
   }, []);
 
   const handleApplySort = useCallback(() => {
-    console.log("🎯 Applying sort:", localSort);
+    console.log(" Applying sort:", localSort);
     dispatch(updateSort(localSort));
   }, [localSort, dispatch]);
 
   const handleResetFilters = useCallback(() => {
-    console.log("🔄 Resetting all filters");
+    console.log(" Resetting all filters");
     setLocalFilters({
       name: '',
       fromDate: null,
@@ -232,7 +232,7 @@ function GetProduct() {
         }
       });
       
-      // Small delay to break potential loops
+     
       setTimeout(() => {
         dispatch(updateFilters(cleanedFilters));
       }, 0);
@@ -287,7 +287,7 @@ function GetProduct() {
     }));
   }, []);
 
-  // Pagination
+  
   const paginatedProducts = useMemo(() => {
     return filteredProducts.slice(
       (page - 1) * rowsPerPage,
@@ -304,12 +304,12 @@ function GetProduct() {
     return Object.values(localFilters).filter(v => v && v !== '').length;
   }, [localFilters]);
 
-  // ✅ Show products (use filteredProducts if available, else all products)
+ 
   const displayProducts = filteredProducts.length > 0 ? filteredProducts : products;
 
-  // Loading state
+  
   if (loading && products.length === 0) {
-    console.log("⏳ Loading...");
+    console.log(" Loading...");
     return <Loader />;
   }
 
@@ -322,11 +322,11 @@ function GetProduct() {
   }
 
   const hasProducts = displayProducts.length > 0;
-  console.log("🎯 Displaying products:", displayProducts.length);
+  console.log(" Displaying products:", displayProducts.length);
 
   return (
     <Container maxWidth="xl" sx={{ mt: 5, mb: 5 }}>
-      {/* Header */}
+    
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
         <Typography variant="h4" component="h1">
           Products List
@@ -351,7 +351,7 @@ function GetProduct() {
         </Box>
       </Box>
 
-      {/* Filters Section */}
+    
       <Collapse in={showFilters}>
         <Paper sx={{ p: 3, mb: 4 }}>
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
@@ -370,7 +370,7 @@ function GetProduct() {
           </Box>
 
           <Grid container spacing={3}>
-            {/* Search by Name */}
+          
             <Grid item xs={12} md={6} lg={4}>
               <TextField
                 fullWidth
@@ -384,7 +384,7 @@ function GetProduct() {
               />
             </Grid>
 
-            {/* Date Range */}
+        
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <Grid item xs={12} md={6} lg={4}>
                 <DatePicker
@@ -416,7 +416,7 @@ function GetProduct() {
               </Grid>
             </LocalizationProvider>
 
-            {/* Stock Status */}
+        
             <Grid item xs={12} md={6} lg={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>Stock Status</InputLabel>
@@ -433,7 +433,7 @@ function GetProduct() {
               </FormControl>
             </Grid>
 
-            {/* Price Range */}
+          
             <Grid item xs={12} md={6} lg={4}>
               <TextField
                 fullWidth
@@ -461,7 +461,7 @@ function GetProduct() {
               />
             </Grid>
 
-            {/* Sort Options */}
+           
             <Grid item xs={12} md={6} lg={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>Sort By</InputLabel>
@@ -492,7 +492,7 @@ function GetProduct() {
               </FormControl>
             </Grid>
 
-            {/* Action Buttons */}
+           
             <Grid item xs={12}>
               <Box display="flex" gap={2} justifyContent="flex-end">
                 <Button 
@@ -514,7 +514,7 @@ function GetProduct() {
             </Grid>
           </Grid>
 
-          {/* Active Filters Chips */}
+         
           {activeFilterCount > 0 && (
             <>
               <Divider sx={{ my: 2 }} />
@@ -576,7 +576,7 @@ function GetProduct() {
         </Paper>
       </Collapse>
 
-      {/* Results Count */}
+    
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="body2" color="text.secondary">
           Found {displayProducts.length} products
@@ -593,7 +593,6 @@ function GetProduct() {
         )}
       </Box>
 
-      {/* Products Grid */}
       {!hasProducts ? (
         <Box 
           display="flex" 
@@ -643,7 +642,7 @@ function GetProduct() {
                       position: 'relative',
                     }}
                   >
-                    {/* Image Carousel */}
+                    
                     <Box sx={{ position: 'relative' }}>
                       <CardMedia
                         component="img"
@@ -778,7 +777,7 @@ function GetProduct() {
             })}
           </Grid>
 
-          {/* Pagination */}
+         
           {filteredProducts.length > rowsPerPage && (
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination

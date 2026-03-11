@@ -34,7 +34,7 @@ const CreateProduct = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
 
-  // Handle success
+ 
   useEffect(() => {
     if (success) {
       alert('Product created successfully!');
@@ -43,7 +43,7 @@ const CreateProduct = () => {
     }
   }, [success, navigate, dispatch]);
 
-  // Cleanup preview URLs on unmount
+ 
   useEffect(() => {
     return () => {
       previewImages.forEach(url => URL.revokeObjectURL(url));
@@ -56,22 +56,22 @@ const CreateProduct = () => {
     if (name === 'images') {
       const fileArray = Array.from(files);
       
-      // Limit to 5 images (backend limit)
+      
       if (fileArray.length > 5) {
         alert('You can only select up to 5 images');
         return;
       }
       
-      // Check total images
+     
       if (selectedImages.length + fileArray.length > 5) {
         alert('Total images cannot exceed 5');
         return;
       }
       
-      // Update selected images
+     
       setSelectedImages(prev => [...prev, ...fileArray]);
       
-      // Create new previews
+    
       const newPreviews = fileArray.map((file) => URL.createObjectURL(file));
       setPreviewImages(prev => [...prev, ...newPreviews]);
       
@@ -84,10 +84,10 @@ const CreateProduct = () => {
   };
 
   const handleRemoveImage = useCallback((indexToRemove) => {
-    // Remove from selectedImages
+  
     setSelectedImages(prev => prev.filter((_, index) => index !== indexToRemove));
     
-    // Remove from previewImages and revoke URL
+   
     URL.revokeObjectURL(previewImages[indexToRemove]);
     setPreviewImages(prev => prev.filter((_, index) => index !== indexToRemove));
     
@@ -97,7 +97,7 @@ const CreateProduct = () => {
   const handleReset = () => {
     setProductForm(initialState);
     
-    // Clean up previews
+  
     previewImages.forEach(url => URL.revokeObjectURL(url));
     setSelectedImages([]);
     setPreviewImages([]);
@@ -124,7 +124,7 @@ const CreateProduct = () => {
       formData.append('images', image);
     });
 
-    // Debug log
+    
     console.log('Submitting with images:', selectedImages.length);
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
@@ -240,7 +240,7 @@ const CreateProduct = () => {
               )}
             </Grid>
 
-            {/* Image Previews */}
+            
             {previewImages.length > 0 && (
               <Grid item xs={12}>
                 <Typography variant="subtitle1" gutterBottom>

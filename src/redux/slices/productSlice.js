@@ -1,4 +1,4 @@
-// src/redux/slices/productSlice.js
+
 import { createSlice } from '@reduxjs/toolkit';
 import { 
   loadFiltersFromSession, 
@@ -7,7 +7,7 @@ import {
   saveSortToSession 
 } from '../../utils/sessionStorage';
 
-// Load saved filters from session storage
+
 const savedFilters = loadFiltersFromSession();
 const savedSort = loadSortFromSession();
 
@@ -18,7 +18,7 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  filters: savedFilters || {  // Session la irunthu load pannu
+  filters: savedFilters || {  
     name: '',
     fromDate: '',
     toDate: '',
@@ -26,7 +26,7 @@ const initialState = {
     minPrice: '',
     maxPrice: ''
   },
-  sort: savedSort || {        // Session la irunthu load pannu
+  sort: savedSort || {      
     field: 'createdAt',
     order: 'desc'
   },
@@ -117,24 +117,24 @@ const productSlice = createSlice({
       state.product = null;
     },
     
-    // FILTER ACTIONS
+    
     setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload };
-      // Session la save pannu
+      
       saveFiltersToSession(state.filters);
     },
     
     applyFilters: (state) => {
       let filtered = [...state.products];
       
-      // Apply name filter
+     
       if (state.filters.name && state.filters.name.trim() !== '') {
         filtered = filtered.filter(p => 
           p.name?.toLowerCase().includes(state.filters.name.toLowerCase().trim())
         );
       }
       
-      // Apply from date filter
+      
       if (state.filters.fromDate) {
         const fromDate = new Date(state.filters.fromDate);
         fromDate.setHours(0, 0, 0, 0);
@@ -144,7 +144,7 @@ const productSlice = createSlice({
         });
       }
       
-      // Apply to date filter
+     
       if (state.filters.toDate) {
         const toDate = new Date(state.filters.toDate);
         toDate.setHours(23, 59, 59, 999);
@@ -154,7 +154,7 @@ const productSlice = createSlice({
         });
       }
       
-      // Apply stock filter
+     
       if (state.filters.inStock) {
         const inStock = state.filters.inStock === 'true';
         filtered = filtered.filter(p => {
@@ -166,17 +166,17 @@ const productSlice = createSlice({
         });
       }
 
-      // Apply min price filter
+     
       if (state.filters.minPrice && state.filters.minPrice !== '') {
         filtered = filtered.filter(p => p.price >= Number(state.filters.minPrice));
       }
       
-      // Apply max price filter
+     
       if (state.filters.maxPrice && state.filters.maxPrice !== '') {
         filtered = filtered.filter(p => p.price <= Number(state.filters.maxPrice));
       }
       
-      // Apply sorting
+     
       filtered.sort((a, b) => {
         let comparison = 0;
         
@@ -213,14 +213,14 @@ const productSlice = createSlice({
       state.filteredProducts = [...state.products];
       state.pagination.total = state.products.length;
       
-      // Session la irunthu clear pannu
+    
       sessionStorage.removeItem('productFilters');
       sessionStorage.removeItem('productSort');
     },
     
     setSort: (state, action) => {
       state.sort = { ...state.sort, ...action.payload };
-      // Session la save pannu
+   
       saveSortToSession(state.sort);
     },
     
@@ -249,7 +249,7 @@ const productSlice = createSlice({
         total: 0
       };
       
-      // Session la irunthu clear pannu
+     
       sessionStorage.removeItem('productFilters');
       sessionStorage.removeItem('productSort');
     }

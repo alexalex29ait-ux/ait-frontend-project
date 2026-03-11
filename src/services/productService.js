@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3000';
 
 const getAuthorizationConfig = (isMultipart = false) => {
-  const token = localStorage.getItem('token'); // Token local storage irundhu eduthukom
+  const token = localStorage.getItem('token');
   
   const config = {
     headers: {
@@ -11,7 +11,7 @@ const getAuthorizationConfig = (isMultipart = false) => {
     },
   };
   
-  // Multipart form data ku contentType set panna koodadhu
+
   if (!isMultipart) {
     config.headers['Content-Type'] = 'application/json';
   }
@@ -36,7 +36,7 @@ const ProductService = {
     }
   },
 
-  // Get product by ID - Public API (token optional)
+
   async getProductById(id) {
     try {
       const token = localStorage.getItem('token');
@@ -73,13 +73,13 @@ const ProductService = {
       throw error.response?.data || error.message;
     }
   },
-  // Create new product - Private API (token required)
+  
   async createProduct(formData) {
     try {
       const response = await axios.post(
         `${API_URL}/products`,
         formData,
-        getAuthorizationConfig(true) // Multipart = true
+        getAuthorizationConfig(true) 
       );
       return response.data;
     } catch (error) {
@@ -88,13 +88,13 @@ const ProductService = {
     }
   },
 
-  // Update product - Private API (token required)
+ 
   async updateProduct(id, formData) {
     try {
       const response = await axios.put(
         `${API_URL}/products/${id}`,
         formData,
-        getAuthorizationConfig(true) // Multipart = true
+        getAuthorizationConfig(true) 
       );
       return response.data;
     } catch (error) {
@@ -103,12 +103,12 @@ const ProductService = {
     }
   },
 
-  // Delete product - Private API (token required)
+
   async deleteProduct(id) {
     try {
       const response = await axios.delete(
         `${API_URL}/products/${id}`, 
-        getAuthorizationConfig() // Multipart = false
+        getAuthorizationConfig() 
       );
       return response.data;
     } catch (error) {
@@ -117,7 +117,7 @@ const ProductService = {
     }
   },
 
-  // Upload multiple images (separate API irundhu)
+ 
   async uploadImages(productId, formData) {
     try {
       const response = await axios.post(
@@ -132,7 +132,7 @@ const ProductService = {
     }
   },
 
-  // Delete image (separate API irundhu)
+  
   async deleteImage(productId, imageName) {
     try {
       const response = await axios.delete(

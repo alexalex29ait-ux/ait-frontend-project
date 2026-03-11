@@ -24,7 +24,7 @@ const ProductFilters = ({
 
   const [expanded, setExpanded] = useState(true);
 
-  // Update local state when props change
+
   useEffect(() => {
     setLocalFilters({
       name: filters?.name || '',
@@ -41,7 +41,7 @@ const ProductFilters = ({
     });
   }, [sort]);
 
-  // Handle filter input changes
+ 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setLocalFilters(prev => ({
@@ -50,7 +50,7 @@ const ProductFilters = ({
     }));
   };
 
-  // Handle sort changes
+  
   const handleSortChange = (e) => {
     const { name, value } = e.target;
     setLocalSort(prev => ({
@@ -59,9 +59,9 @@ const ProductFilters = ({
     }));
   };
 
-  // Apply filters
+  
   const handleApplyFilters = () => {
-    // Remove empty values
+   
     const cleanedFilters = {};
     Object.entries(localFilters).forEach(([key, value]) => {
       if (value && value.trim && value.trim() !== '') {
@@ -74,12 +74,12 @@ const ProductFilters = ({
     onApplyFilters(cleanedFilters);
   };
 
-  // Apply sort
+ 
   const handleApplySort = () => {
     onApplySort(localSort);
   };
 
-  // Reset all
+  
   const handleReset = () => {
     setLocalFilters({
       name: '',
@@ -94,7 +94,7 @@ const ProductFilters = ({
     onResetFilters();
   };
 
-  // Handle key press for search
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleApplyFilters();
@@ -110,10 +110,10 @@ const ProductFilters = ({
 
       {expanded && (
         <>
-          {/* Filter Section */}
+         
           <div className="filters-section">
             <div className="filters-grid">
-              {/* Name Filter */}
+             
               <div className="filter-group">
                 <label>
                   <span className="filter-icon">🏷️</span>
@@ -130,7 +130,7 @@ const ProductFilters = ({
                 />
               </div>
 
-              {/* Date Range */}
+
               <div className="filter-group">
                 <label>
                   <span className="filter-icon">📅</span>
@@ -161,7 +161,7 @@ const ProductFilters = ({
                 />
               </div>
 
-              {/* Stock Status */}
+             
               <div className="filter-group">
                 <label>
                   <span className="filter-icon">📦</span>
@@ -174,8 +174,8 @@ const ProductFilters = ({
                   className="filter-select"
                 >
                   <option value="">All</option>
-                  <option value="true">✅ In Stock</option>
-                  <option value="false">❌ Out of Stock</option>
+                  <option value="true"> In Stock</option>
+                  <option value="false"> Out of Stock</option>
                 </select>
               </div>
             </div>
@@ -190,7 +190,7 @@ const ProductFilters = ({
             </div>
           </div>
 
-          {/* Sort Section */}
+         
           <div className="sort-section">
             <h4>Sort Products</h4>
             <div className="sort-grid">
@@ -202,10 +202,10 @@ const ProductFilters = ({
                   onChange={handleSortChange}
                   className="sort-select"
                 >
-                  <option value="createdAt">📅 Date Added</option>
-                  <option value="name">🏷️ Name</option>
-                  <option value="price">💰 Price</option>
-                  <option value="stock">📦 Stock</option>
+                  <option value="createdAt"> Date Added</option>
+                  <option value="name"> Name</option>
+                  <option value="price"> Price</option>
+                  <option value="stock"> Stock</option>
                 </select>
               </div>
 
@@ -217,8 +217,8 @@ const ProductFilters = ({
                   onChange={handleSortChange}
                   className="sort-select"
                 >
-                  <option value="asc">⬆️ Ascending</option>
-                  <option value="desc">⬇️ Descending</option>
+                  <option value="asc"> Ascending</option>
+                  <option value="desc"> Descending</option>
                 </select>
               </div>
 
@@ -228,7 +228,7 @@ const ProductFilters = ({
             </div>
           </div>
 
-          {/* Active Filters Display */}
+      
           {(localFilters.name || localFilters.fromDate || localFilters.toDate || localFilters.inStock) && (
             <div className="active-filters">
               <span className="active-filters-label">Active filters:</span>

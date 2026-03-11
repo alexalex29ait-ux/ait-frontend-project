@@ -34,7 +34,7 @@ const UpdateProduct = () => {
 
   const [productForm, setProductForm] = useState(initialState);
   
-  // Correct state access
+
   const productState = useSelector((state) => state.products);
   const productsSlice = productState?.products || {};
   const product = productsSlice?.product;
@@ -45,7 +45,7 @@ const UpdateProduct = () => {
   console.log("UpdateProduct - product from state:", product);
   console.log("Selected images count:", selectedImages.length);
 
-  // Fetch product when component mounts
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchProductById(id));
@@ -57,7 +57,7 @@ const UpdateProduct = () => {
     };
   }, [id, dispatch]);
 
-  // Update form when product data is loaded
+ 
   useEffect(() => {
     if (product && Object.keys(product).length > 0 && !formInitialized) {
       setProductForm({
@@ -76,16 +76,16 @@ const UpdateProduct = () => {
     if (name === "images") {
       const fileArray = Array.from(files);
       
-      // Check total images (existing new images + new selection)
+     
       if (selectedImages.length + fileArray.length > 5) {
         alert(`You can only select up to 5 images total. You already have ${selectedImages.length} images selected.`);
         return;
       }
       
-      // Append new images to existing selection (not replace)
+  
       setSelectedImages(prev => [...prev, ...fileArray]);
       
-      // Create new previews and append
+     
       const newPreviews = fileArray.map(file => URL.createObjectURL(file));
       setPreviewImages(prev => [...prev, ...newPreviews]);
       
@@ -98,10 +98,10 @@ const UpdateProduct = () => {
   };
 
   const handleRemoveImage = useCallback((indexToRemove) => {
-    // Remove from selectedImages
+   
     setSelectedImages(prev => prev.filter((_, index) => index !== indexToRemove));
     
-    // Remove from previewImages and revoke URL
+    
     URL.revokeObjectURL(previewImages[indexToRemove]);
     setPreviewImages(prev => prev.filter((_, index) => index !== indexToRemove));
     
@@ -118,7 +118,7 @@ const UpdateProduct = () => {
       });
     }
     
-    // Clean up previews
+   
     previewImages.forEach(preview => URL.revokeObjectURL(preview));
     setSelectedImages([]);
     setPreviewImages([]);
@@ -142,7 +142,7 @@ const UpdateProduct = () => {
       });
     }
 
-    // Debug log
+   
     console.log("Updating with images:", selectedImages.length);
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
@@ -180,7 +180,7 @@ const UpdateProduct = () => {
 
         <form onSubmit={handleSubmit} onReset={handleReset}>
           <Grid container spacing={3}>
-            {/* Display current product images if any - ONLY show if no new images selected */}
+       
             {product?.image && selectedImages.length === 0 && (
               <Grid item xs={12}>
                 <Typography variant="subtitle1" gutterBottom>
@@ -226,7 +226,7 @@ const UpdateProduct = () => {
               </Grid>
             )}
 
-            {/* Name Field */}
+           
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -240,7 +240,7 @@ const UpdateProduct = () => {
               />
             </Grid>
 
-            {/* Price Field */}
+         
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -256,7 +256,7 @@ const UpdateProduct = () => {
               />
             </Grid>
 
-            {/* Stock Field */}
+            
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -271,7 +271,7 @@ const UpdateProduct = () => {
               />
             </Grid>
 
-            {/* Description Field */}
+           
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -287,7 +287,7 @@ const UpdateProduct = () => {
               />
             </Grid>
 
-            {/* Image Upload Field */}
+           
             <Grid item xs={12}>
               <input
                 type="file"
@@ -322,7 +322,7 @@ const UpdateProduct = () => {
               )}
             </Grid>
 
-            {/* New Image Previews */}
+        
             {previewImages.length > 0 && (
               <Grid item xs={12}>
                 <Typography variant="subtitle1" gutterBottom>
@@ -390,7 +390,7 @@ const UpdateProduct = () => {
               </Grid>
             )}
 
-            {/* Form Actions */}
+         
             <Grid item xs={12}>
               <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mt: 2 }}>
                 <Button
