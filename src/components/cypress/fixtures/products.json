@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "_id": "1",
+      "name": "iPhone 13",
+      "price": 79999,
+      "description": "Latest iPhone",
+      "stock": 50,
+      "images": ["iphone.jpg"],
+      "createdAt": "2024-01-01T10:00:00Z"
+    },
+    {
+      "_id": "2",
+      "name": "Samsung S23",
+      "price": 89999,
+      "description": "Android flagship",
+      "stock": 30,
+      "images": ["samsung.jpg"],
+      "createdAt": "2024-01-02T10:00:00Z"
+    }
+  ]
+}

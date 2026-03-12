@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cy:login": "cypress run --spec cypress/e2e/login.cy.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -24,6 +27,7 @@
     "react-icons": "^5.6.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.1",
+    "redux-thunk": "^3.1.0",
     "styled-components": "^6.3.11",
     "tailwindcss": "^4.2.1"
   },
@@ -32,12 +36,15 @@
     "@types/node": "^25.4.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "cypress": "^12.17.4",
+    "cypress-file-upload": "^5.0.8",
+    "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "redux-mock-store": "^1.5.5",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^4.5.14"
   }
 }
